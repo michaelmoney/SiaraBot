@@ -5,9 +5,6 @@
 <div style="distplay:flex;">
 <img src="http://michaelmoney.pl/apps/siarabot/siara.png" alt="siara" style="height:60px;">
 
-<img src="http://michaelmoney.pl/apps/siarabot/slack-logo.png" alt="siara" style="height:60px;">
-</div>
-
 ## Description
 **SiaraBot** was designed to bring joy and fun into Slack's channels conversations. Depending on the situation.
 "Siara" **welcomes, motivates, amuses, teaches or blames team members**.
