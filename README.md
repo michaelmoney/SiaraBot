@@ -2,9 +2,16 @@
 
 *A Slack bot that **brings fun and joy to your everyday slack's communication**.*
 
+<div style="distplay:flex;">
+<img src="http://michaelmoney.pl/apps/siarabot/siara.png" alt="siara" style="height:60px;">
+
+<img src="http://michaelmoney.pl/apps/siarabot/slack-logo.png" alt="siara" style="height:60px;">
+</div>
+
 ## Description
 **SiaraBot** was designed to bring joy and fun into Slack's channels conversations. Depending on the situation.
 "Siara" **welcomes, motivates, amuses, teaches or blames team members**.
+
 
 **SiaraBot** is a Node.js bot based on polish comedy movie "Kiler" character - **Stefan "Siara" Siarzewski**. 
 The main concept of the bot was inspired from <a href="https://github.com/yougov/pmxbot" target="_blank"> YouGov's "pmxbot"</a>
@@ -22,9 +29,44 @@ The main concept of the bot was inspired from <a href="https://github.com/yougov
 NOTE: Currently SiaraBot supports only polish commands and phrases (taken mostly from the "Kiler" comedy),
 but it can be easily modified by changing <a href="https://github.com/michaelmoney/SiaraBot/blob/master/assets/phrases.json">`phrases.json`</a> file.
 
+
+#### Before you start
+
+**1. Clone repository:**
+
+```
+git clone https://github.com/michaelmoney/SiaraBot.git
+```
+
+**2. Install all dependencies via NPM:**
+
+```
+npm install
+```
+
+**3. Setup you local variable `BOT_TOKEN` variable with token:**
+
+```
+export BOT_TOKEN=YOUR_SLACK_TOKEN
+```
+
+**4. (Optional) To veriify if token is set-up, type:**
+
+```
+echo  $BOT_TOKEN
+```
+
+#### How to run SiaraBot?
+
+Just run in the terminal:
+```
+npm start 
+```
+
+
 #### How to print all available phrases?
 
-To see all available phrases, type:
+**To see all available phrases, type:**
 
 ```
 !help
@@ -52,10 +94,19 @@ SiaraBot could be run on any Node web server. It's very easy to deploy and use S
 - Heroku
 - Amazon Web Services (AWS)
 
+
 ## How to add SiaraBot into my Slack team?
 If you have already deployed SiaraBot and have an instance running it's very simple.
+In the Slack settings, you need to create a new bot and retreive a token.
+
 To add a  new bot please read following description:
 https://api.slack.com/bot-users
+
+To keep your token safe (outside repo), `SiaraBot` load token from the ENV variable.
+
+<img src="http://michaelmoney.pl/apps/siarabot/setup-1.jpg" alt="setup bot" style="width:60%">
+
+<img src="http://michaelmoney.pl/apps/siarabot/setup-2.png" alt="setup bot" style="width:60%">
 
 ## Example of usage SiaraBot
 
