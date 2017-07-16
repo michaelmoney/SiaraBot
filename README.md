@@ -3,7 +3,7 @@
 *A Slack bot that **brings fun and joy to your everyday slack's communication**.*
 
 <div style="distplay:flex;">
-<img src="http://michaelmoney.pl/apps/siarabot/siara.png" alt="siara" style="height:60px;">
+<img src="http://michaelmoney.pl/apps/siarabot/siara-logo.png" alt="siara" style="height:60px;">
 
 ## Description
 **SiaraBot** was designed to bring joy and fun into Slack's channels conversations. Depending on the situation.
