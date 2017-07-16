@@ -1,9 +1,9 @@
 # SiaraBot 
 
-A Slack bot that brings fun and joy to your everyday slack's communication
+*A Slack bot that **brings fun and joy to your everyday slack's communication**.*
 
 ## Description
-**SiaraBot** was designed to bring joy and fun into Slack's channels conversations. Depending on the situation
+**SiaraBot** was designed to bring joy and fun into Slack's channels conversations. Depending on the situation.
 "Siara" **welcomes, motivates, amuses, teaches or blames team members**.
 
 **SiaraBot** is a Node.js bot based on polish comedy movie "Kiler" character - **Stefan "Siara" Siarzewski**. 
