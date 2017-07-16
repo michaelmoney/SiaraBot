@@ -60,6 +60,6 @@ describe(`When 'pickPhrase' is called`, () => {
         bot.pickPhrase(`standup`, `bar`);
         const newTexts = bot.findPhrase(`standup`).texts;
         expect(Array.isArray(texts)).toBeTruthy();
-        expect(texts > newTexts).toBeTruthy();
+        expect(texts.length).toBeGreaterThan(newTexts.length);
     })
 });
