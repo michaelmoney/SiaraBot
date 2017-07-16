@@ -1,6 +1,6 @@
 # SiaraBot 
 
-## A Slack bot that brings fun and joy to your everyday slack's communication
+A Slack bot that brings fun and joy to your everyday slack's communication
 
 ## Description
 **SiaraBot** was designed to bring joy and fun into Slack's channels conversations. Depending on the situation
