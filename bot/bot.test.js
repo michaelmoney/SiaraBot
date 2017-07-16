@@ -30,10 +30,10 @@ describe(`When bot is initialized`, () => {
 
 describe(`When 'findPhrase()' is called`, () => {
     test(`it should return a phrase object`, () => {
-        expect(bot.findPhrase(`help`)).toBeDefined();
-        expect(bot.findPhrase(`help`).name).toBeDefined();
-        expect(bot.findPhrase(`help`).type).toBeDefined();
-        expect(Array.isArray(bot.findPhrase(`help`).texts)).toBeTruthy();
+        expect(bot.findPhrase(`standup`)).toBeDefined();
+        expect(bot.findPhrase(`standup`).name).toBeDefined();
+        expect(bot.findPhrase(`standup`).type).toBeDefined();
+        expect(Array.isArray(bot.findPhrase(`standup`).texts)).toBeTruthy();
     });
 });
 
