@@ -7,7 +7,7 @@
 
 ## Description
 **SiaraBot** was designed to bring joy and fun into Slack's channels conversations. Depending on the situation.
-"Siara" **welcomes, motivates, amuses, teaches or blames team members**.
+"Siara" **welcomes, motivates, amuses, teaches or blamess** team members.
 
 **SiaraBot** is a Node.js bot based on polish comedy movie "Kiler" character - **Stefan "Siara" Siarzewski**. 
 The main concept of the bot was inspired from <a href="https://github.com/yougov/pmxbot" target="_blank"> YouGov's "pmxbot"</a>
@@ -24,11 +24,8 @@ The main concept of the bot was inspired from <a href="https://github.com/yougov
 ### To welcome someone:
 <img src="http://michaelmoney.pl/apps/siarabot/dziendobry.gif" alt="dziendobry">
 
-NOTE: Currently SiaraBot supports only polish commands and phrases (taken mostly from the "Kiler" comedy),
-but it can be easily modified by changing <a href="https://github.com/michaelmoney/SiaraBot/blob/master/assets/phrases.json">`phrases.json`</a> file.
 
-
-#### Before you start
+## Before you start
 
 **1. Clone repository:**
 
@@ -54,17 +51,24 @@ export BOT_TOKEN=YOUR_SLACK_TOKEN
 echo  $BOT_TOKEN
 ```
 
-#### How to run SiaraBot?
+### How to run SiaraBot?
 
 Just run in the terminal:
 ```
 npm start 
 ```
+## Can I customise SiaraBot?
 
+### 1.Can I add my own phrases? 
 
-#### How to print all available phrases?
+Yes. SiaraBot's texts can be easily modified by changing <a href="https://github.com/michaelmoney/SiaraBot/blob/master/assets/phrases.json">`phrases.json`</a> file.
 
-**To see all available phrases, type:**
+### 2.Can I use different name and different avatar icon for SiaraBot?
+Yes. You setup different name, for example **SuperManBot** and upload different avatar icon.
+
+## How to print all available phrases?
+
+**In the Slack's message input, type:**
 
 ```
 !help
@@ -108,7 +112,7 @@ To keep your token safe (outside repo), `SiaraBot` load token from the ENV varia
 
 ## Example of usage SiaraBot
 
-#### How to print all available phrases?
+### How to print all available phrases?
 
 To see all available phrases, type:
 
@@ -116,7 +120,7 @@ To see all available phrases, type:
 !help
 ``` 
 
-#### SiaraBot example keywords
+### SiaraBot example keywords
 
 Inside Slack window type a keyword beginning with "!", optionally adding `@user` at the end of command:
 
