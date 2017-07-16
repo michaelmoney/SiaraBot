@@ -1,17 +1,18 @@
+<img src="https://travis-ci.org/michaelmoney/SiaraBot.svg?branch=master">
+
 # SiaraBot 
 
 *A Slack bot that **brings fun and joy to your everyday slack's communication**.*
 
-<div style="distplay:flex;">
-<img src="http://michaelmoney.pl/apps/siarabot/siara-logo.png" alt="siara" style="height:60px;">
 
 ## Description
 **SiaraBot** was designed to bring joy and fun into Slack's channels conversations. Depending on the situation.
 "Siara" **welcomes, motivates, amuses, teaches or blames team members**.
 
-
 **SiaraBot** is a Node.js bot based on polish comedy movie "Kiler" character - **Stefan "Siara" Siarzewski**. 
 The main concept of the bot was inspired from <a href="https://github.com/yougov/pmxbot" target="_blank"> YouGov's "pmxbot"</a>
+
+<img src="http://michaelmoney.pl/apps/siarabot/siara-logo.png" alt="siara">
 
 
 ### To motivate someone:
