@@ -1,19 +1,31 @@
 # SiaraBot. A Slack bot that brings fun and joy to your everyday slack's communication
 ## Description
 SiaraBot is a bot based on polish comedy movie "Kiler" character - Stefan "Siara" Siarzewski. 
-It was inspired from YouGov's "pmxbot".
-Siara was designed to bring joy and fun into Slack's channels conversations. Depending on the situation
-Siara welcomes, motivates, amuses, teaches or blames team members.
+The main concept was inspired from <a href="https://github.com/yougov/pmxbot" target="_blank"> YouGov's "pmxbot"</a>
 
+"Siara" was designed to bring joy and fun into Slack's channels conversations. Depending on the situation
+"Siara" **welcomes, motivates, amuses, teaches or blames team members.**
+
+
+### To motivate someone:
 <img src="http://michaelmoney.pl/apps/siarabot/brawo.gif" alt="brawo">
 
-
+### To blame someone:
 <img src="http://michaelmoney.pl/apps/siarabot/chmurka.gif" alt="chmurka">
 
+### To welcome someone:
 <img src="http://michaelmoney.pl/apps/siarabot/dziendobry.gif" alt="dziendobry">
 
 NOTE: Currently SiaraBot supports only polish commands and phrases (taken mostly from the "Kiler" comedy),
-but it can be easily modified by changing `phrases.json` file.
+but it can be easily modified by changing <a href="https://github.com/michaelmoney/SiaraBot/blob/master/assets/phrases.json">`phrases.json`</a> file.
+
+#### How to print all available phrases?
+
+To see all available phrases, type:
+
+```
+!help
+``` 
 
 ## Supported commands (keywords):
 - !piwo
