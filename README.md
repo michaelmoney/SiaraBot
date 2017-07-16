@@ -5,10 +5,12 @@ It was inspired from YouGov's "pmxbot".
 Siara was designed to bring joy and fun into Slack's channels conversations. Depending on the situation
 Siara welcomes, motivates, amuses, teaches or blames team members.
 
+<img src="http://michaelmoney.pl/apps/siarabot/brawo.gif" alt="brawo">
+
 NOTE: Currently SiaraBot supports only polish commands and phrases (taken mostly from the "Kiler" comedy),
 but it can be easily modified by changing `phrases.json` file.
 
-##Supported commands (keywords):
+## Supported commands (keywords):
 - !piwo
 - !standup
 - !kilim
@@ -24,6 +26,10 @@ but it can be easily modified by changing `phrases.json` file.
 - !zarobiony
 - !dziendobry
 - !niewiem
+
+<img src="http://michaelmoney.pl/apps/siarabot/chmurka.gif" alt="chmurka">
+
+<img src="http://michaelmoney.pl/apps/siarabot/dziendobry.gif" alt="dziendobry">
 
 ## Where to deploy SiaraBot?
 SiaraBot could be run on any Node web server. It's very easy to deploy and use SiaraBot on following cloud platforms:
