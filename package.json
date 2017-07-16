@@ -1,0 +1,47 @@
+{
+  "name": "siarabot",
+  "version": "0.0.1",
+  "description": "SiaraBot. A Slack bot that brings fun and joy to your everyday communication.",
+  "author": {
+    "name": "Michael Money - Michal Pieniazek",
+    "email": "mpieniazek@me.com"
+  },
+  "homepage": "http://michaelmoney.pl",
+  "engines": {
+    "node": "6.10.2"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "node_modules/eslint/bin/eslint.js *.js",
+    "fix": "node_modules/eslint/bin/eslint.js --fix *.js",
+     "test": "jest"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "ejs": "2.5.6",
+    "express": "4.15.2",
+    "slackbots": "^1.0.2",
+    "lodash": "^4.17.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/michaelmoney"
+  },
+  "keywords": [
+    "siarabot",
+    "siara siarzewski",
+    "slackbot",
+    "slack"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-config-defaults": "^9.0.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1",
+    "jest": "^20.0.4"
+  }
+}
