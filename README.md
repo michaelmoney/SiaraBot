@@ -12,7 +12,7 @@
 **SiaraBot** is a Node.js bot based on polish comedy movie "Kiler" character - **Stefan "Siara" Siarzewski**. 
 The main concept of the bot was inspired from <a href="https://github.com/yougov/pmxbot" target="_blank"> YouGov's "pmxbot"</a>
 
-<img src="http://michaelmoney.pl/apps/siarabot/siara.png" alt="siara">
+<img src="http://michaelmoney.pl/apps/siarabot/siara-logo-new.png" alt="siara">
 
 
 ### To motivate someone:
