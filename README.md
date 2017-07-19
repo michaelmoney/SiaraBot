@@ -27,6 +27,7 @@ The main concept of the bot was inspired from <a href="https://github.com/yougov
 
 ## Before you start
 
+
 **1. Clone repository:**
 
 ```
@@ -38,6 +39,8 @@ git clone https://github.com/michaelmoney/SiaraBot.git
 ```
 npm install
 ```
+
+**NOTE: Current version of SiaraBot uses ES6 features. Node version  6.x.x is required.**
 
 **3. Setup you local variable `BOT_TOKEN` variable with token:**
 
