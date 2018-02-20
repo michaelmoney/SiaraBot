@@ -23,46 +23,30 @@
     "type": "phrase",
     "name": "standup",
     "texts": [
-      "Kici, kici, taś, taś.",
-      "Który idiota tutaj dowodzi?",
-      "Co oni mnie tu EMPIK z domu robią?!",
-      "Wstawajcie! Ojczyzna Was wzywa!",
-      "Dlaczego tak niekulturalnie?",
-      "Przepraszam bardzo, co tu się dzieje?",
-      "Tu Ryba, wzywam cię, Akwarium.",
-      "A pański kolega? Nie powie nam nic wesołego?",
-      "W sportowym obuwiu nie wpuszczamy, nie ma wjazdu dla dresiarzy!",
-      "Nic nie słyszę, bo jakiś debil się drze przez megafon.",
-      "Możesz nie krzyczeć?",
-      "Nie wytrzymam! Permanentna inwigilacja! Nie wytrzymam!",
-      "Yyy... ooostatni. Yyy... oooostatni.",
-      "Może powtórzymy angielski?",
-      "Przepraszam bardzo... A co tu się dzieję? Film kręcą? To dlaczego ja nie gram?",
-      "Cycki se usmaż!"
+      "A która to godzina? Standup! Co wy myślicie, że taki <target>, to nie ma co robić? On ma zamówień do dwutysięcznego ósmego roku! Jak Penderecki, jego trzeba nadpłacić, przepłacić, przebić...",
+      "No co jest <target>? Standup! Posprzątać mie tu błyskiem!",
+      "A kogoś ty mie tu nawpuszczał <target>? Won mie na ląd leszcze! Standup!",
+      "A rzeczywiście.. toż to Mirosław, Radosław i <target>. Co wy mie tu maszkardę robicie? Na Standup!",
+      "Memory, find... <target>. I wszystko jasne... Standup!",
+      "Co wykonałem? Jak wykonałem? Coś ty <target> tam narobił? Standup!",
+      "Dlaczegoś <target> wyłączył komórkę?! Standup!"
     ]
   },
   {
     "type": "phrase",
     "name": "chmurka",
     "texts": [
-      "Widzisz <target> coś narobił? Urwaleś kurze złote jaja...",
-      "A idź mnie z tą wichurą!",
-      "Co wykonałem? Jak wykonałem? Coś ty tam narobił?",
-      "Pare nidociągnięć? <target> A gdzie tu są dociągnięcia?!",
-      "Jakie „spierdalaj”? Sam spierdalaj z tym bufetem, bo mi tapicerkę zapaćkasz!",
+      "Widzisz <target> coś narobił? Urwałeś kurze złote jaja...",
+      "A idź mie z tą wichurą! <target>",
+      "Jakie „spierdalaj” <target>? Sam spierdalaj z tym bufetem, bo mi tapicerkę zapaćkasz!",
       "Widzisz co to żarcie robi ci z mózgu <target>? Poza tą bułką i frytkami świat dla ciebie nie istnieje. To tylko kawałeczek pierdolonego ziemniaka, a ty zachowujesz się tak, jakbym krzywdził twoją matkę.",
       "Czy ja dobrze widzę? Przecież to jest <target>. Sprawca mego upodlenia, obiekt mej zemsty.",
-      "Popełniłeś błąd. Zapomniałeś po sobie posprzątać.",
       "Zaraz cię <target> podregulujemy, bo chyba coś Ci się w głowie popierdoliło...",
       "Czy tobie czasem <target>, sufit na łeb się nie spadł?",
-      "Zrobiliście duży błąd <target>. Chcieliście wydymać Freda, to teraz Fred wydyma was.",
-      "Ale zapierdalasz <target>. Dostaniesz mandat. I od chuja punktów.",
-      "To ja ci wyciągam kule jak doktor Quinn, a ty <target> mi się tu rżniesz na ulicy z jakimś kolarzem?!",
+      "To ja ci <target> wyciągam kule jak doktor Quinn, a ty mi się tu rżniesz na ulicy z jakimś kolarzem?!",
       "Ja cię stresuję, kurwa?! Uczysz się tego piąty rok w szkole i na kursach, i wszystko to jak krew w piach!",
-      "Popełniłeś błąd. Zapomniałeś po sobie posprzątać.",
-      "Toco się stało, że się zesrało?",
+      "Co to się stało, że się zesrało? <target>",
       "Wiesz, co mówi ulica?! Że jak chcesz komuś dać po mordzie, to najlepiej <target>. Nie odda, bo się boi!",
-      "Masz pojęcie kto za chwilę napisze raport, który przeczyta Minister Spraw Zagranicznych?",
       "W imieniu rodziny Siary Siarzewskiego, chciałbym z tego miejsca zapewnić, że doceniam przyjacielski gest mojego byłego wroga, gdyż od dziś wspólnym naszym wrogiem jest były mój przyjaciel, <target>."
     ]
   },
@@ -87,13 +71,20 @@
   },
   {
     "type": "phrase",
+    "name": "cr",
+    "texts": [
+      "<@channel> Code-review samo się nie zrobi!"
+    ]
+  },
+  {
+    "type": "phrase",
     "name": "pomylka",
     "texts": [
       "Moja żona miała na drugie pomyłka...",
       "Ty się nazywasz Kiler i masz ksywę Kiler. I jesteś Kiler! A jak mi powiesz, że to jest pomyłka, to dostaniesz w ryj.",
       "Proszę Pana, to jest jakieś tragiczne nieporozumienie.",
-      "To rewelacja. Widać, że znasz bardzo wpływowych ludzi. A może załatwisz jeszcze używaną oponę do stara, albo choinkę o zapachu kokosowym do malucha?",
-      "I coś ty narobił <target>? Kogoś ty mi tu sprowadził? To jest szakal, za którego ja place taką fure piniendzy, to jest ten debeściak?",
+      "To rewelacja! Widać, że znasz bardzo wpływowych ludzi. A może załatwisz jeszcze używaną oponę do stara, albo choinkę o zapachu kokosowym do malucha?",
+      "I coś ty narobił <target>? Kogoś ty mi tu sprowadził? To jest szakal, za którego ja płacę taką fure piniendzy, to jest ten debeściak?",
       "To nie jest dwa tysiące pesos, tylko gówno warte dwa razy po tysiąc pesos, tak?"
     ]
   },
@@ -130,8 +121,6 @@
     "texts": [
       "Gdzieś była, lafiryndo?",
       "W kostnicy powiedzieli, że tu jeszcze leżysz.",
-      "Znowu nie było cię na kolokwium.",
-      "Musi tu gdzieś być, bo żarcie jeszcze ciepłe. A jak go nie ma, to wróci – bo żarcie jeszcze ciepłe.",
       "Dlaczegoś, <target>, wyłączył komórkę?!",
       "<target> No właśnie, i gdzie on jest?",
       "Memory, find... <target>. I wszystko jasne!",
@@ -152,7 +141,7 @@
     "texts": [
       "Od tej pory, <target> masz mieć w dupie paragrafy! Masz być jak bulterier! Jak wściekły byk! Jak Tommy Lee Jones w Ściganym!",
       "Przyszliście tu do pracy, a nie na papierocha, pogaduchy i strojenie głupich min! Czy to jest, kurwa, jasne żołnierz... Wróć! Czy to jest jasne?!",
-      "Ty <target> weź za robotę, bo się nie polubimy!"
+      "Ty <target>, weź się za robotę, bo się nie polubimy!"
     ]
   },
   {
@@ -173,11 +162,10 @@
     "type": "phrase",
     "name": "dziendobry",
     "texts": [
-      "Dzień dobry Panie Komisarzu",
-      "Buenos Aires!",
-      "Przedstawię was, to jest mój przyjaciel Kiler, a to jest moja żona lafirynda.",
+      "Buenos Aires <target>!",
+      "Przedstawię was <target>, to jest mój przyjaciel Kiler, a to jest moja żona lafirynda.",
       "Dzień dobry, mieszka tu jakis cwaniak?",
-      "A rzeczywiście to Mirosław, Radosław, Zbigniew. Co wy mie tu maszkardę robicie? Do budy!"
+      "A rzeczywiście to Mirosław, <target> Radosław, Zbigniew. Co wy mie tu maszkardę robicie? Do budy!"
     ]
   },
   {
@@ -215,10 +203,7 @@
     "type": "phrase",
     "name": "piwo",
     "texts": [
-      "Piwo grzeje, piwo chłodzi, piwo nigdy nie zaszkodzi.",
       "Lubię wypić piwko, czasem dwa... ewentualnie siedem.",
-      "Czasem jedynym wyjściem jest wyjście na piwko.",
-      "Wyboru wielkiego nie mamy. Wódka, wino... piwo ewentualnie.",
       "Zostanę i ojebie jeszcze jedno. Żona i tak mnie zabiję jak wrócę.",
       "Litr piwa zawiera 250 kalori, człowiek potrzebuje 2500 kalori dziennie. Wnioski nasuwają się same..."
     ]
