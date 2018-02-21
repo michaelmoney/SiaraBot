@@ -8,7 +8,7 @@
   },
   "homepage": "http://michaelmoney.pl",
   "engines": {
-    "node": ">8.0.0"
+    "node": "6.10.2"
   },
   "main": "index.js",
   "scripts": {
@@ -18,14 +18,11 @@
     "test": "jest"
   },
   "dependencies": {
-    "dotenv": "^5.0.0",
     "body-parser": "^1.17.1",
     "ejs": "2.5.6",
     "express": "4.15.2",
-    "firebase": "^4.9.1",
-    "lodash": "^4.17.4",
-    "moment": "^2.20.1",
-    "slackbots": "^1.0.2"
+    "slackbots": "^1.0.2",
+    "lodash": "^4.17.4"
   },
   "repository": {
     "type": "git",
