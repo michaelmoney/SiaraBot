@@ -23,7 +23,8 @@
     "express": "4.15.2",
     "slackbots": "^1.0.2",
     "lodash": "^4.17.4",
-    "firebase": "4.0.0"
+    "firebase": "4.0.0",
+    "moment": "^2.20.1"
   },
   "repository": {
     "type": "git",
