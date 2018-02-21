@@ -8,7 +8,7 @@
   },
   "homepage": "http://michaelmoney.pl",
   "engines": {
-    "node": "8.8.1"
+    "node": ">8.0.0"
   },
   "main": "index.js",
   "scripts": {

@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const SiaraBot = require('./bot/bot');
 
-function init() {
+(function init() {
     if (!process.env.BOT_TOKEN) {
         console.error('No token for Slackbot provided!');
     } else if (!process.env.FIREBASE_PASS || !process.env.FIREBASE_EMAIL) {
@@ -19,8 +19,5 @@ function init() {
         siarBot.on('message', siarBot.onMessage);
         console.log('SiaraBot is runnning...');
     }
-}
-
-// Init app
-init();
+})();
 
