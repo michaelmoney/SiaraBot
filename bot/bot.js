@@ -136,6 +136,9 @@ module.exports = class SiaraBot extends SlackBot {
     }
 
     sendMessage(channel, text) {
+        if (!text) {
+            return;
+        }
         this.postMessage(channel, `_${text}_`, params);
     }
 
@@ -155,8 +158,11 @@ module.exports = class SiaraBot extends SlackBot {
     parseInput (line) {
         const splitted = line.split(' ');
         const command = splitted.shift();
-        const target = splitted.join(' ');
-        const keyword = command.split(COMMAND_OPERATOR)[1];
+        let target = splitted.join(' ');
+        let keyword = command.split(COMMAND_OPERATOR)[1];
+        if (keyword.includes('channel') || keyword.includes('here')) {
+            keyword = target = '';
+        }
         return {
             keyword,
             target,
@@ -177,7 +183,7 @@ module.exports = class SiaraBot extends SlackBot {
     pickPhrase (command, target) {
         this.currentPhrase = this.findPhrase(command);
         if (!this.currentPhrase.texts) {
-            this.currentPhrase = this.handleNoPhrase();
+            return;
         }
 
         if (!this.currentPhrase.texts.length) {
