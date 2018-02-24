@@ -188,3 +188,4 @@ dlatego nie zabiłem Cię, @user chociaż powinienem.
 ### Links:
 - "Kiler" movie https://en.wikipedia.org/wiki/Kiler
 - "pmxbot" https://github.com/yougov/pmxbot/tree/master/pmxbot
+
