@@ -22,3 +22,6 @@ docker-compose.yml
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 .ebextensions
+
+database file
+db.json
