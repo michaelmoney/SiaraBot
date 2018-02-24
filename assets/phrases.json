@@ -71,9 +71,9 @@
   },
   {
     "type": "phrase",
-    "name": "cr",
+    "name": "wow",
     "texts": [
-      "<@channel> Code-review samo się nie zrobi!"
+      "<target> jak ty mnie zaimponowałeś w tej chwili!"
     ]
   },
   {

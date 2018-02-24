@@ -1,7 +1,7 @@
 const SlackBot = require(`../node_modules/slackbots`);
 const _ = require(`lodash`);
-const firebase = require('firebase');
-const moment = require('moment');
+const firebase = require(`firebase`);
+const moment = require(`moment`);
 const MESSAGE = `message`;
 const TARGET_TAG = `<target>`;
 const HELP_COMMAND = `help`;
@@ -11,11 +11,15 @@ const params = {
 };
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyCHLu3-3Nwvunukb3MhsnOzeRFBhDGKrU0\n',
-    authDomain: 'siara-46012.firebaseapp.com',
-    databaseURL: 'https://siara-46012.firebaseio.com',
-    storageBucket: 'siara-46012.appspot.com',
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTHDOMAIN,
+    databaseURL: process.env.FIREBASE_DB_URL,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
 };
+
+const STANDUP_PHRASE = `standup`;
+const CHANNEL_OPERATOR = `channel`;
+const HERE_OPERATOR = `here`;
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -25,14 +29,18 @@ module.exports = class SiaraBot extends SlackBot {
         super(cfg);
     }
 
-    async init () {
+    async init() {
         this._phrases = [];
         this._users = [];
+        this.holidays = [];
+        this.weekdays = [];
         await this.connectDb();
+        await this.loadLocale();
+        await this.loadWeekdays();
+        await this.loadHolidays();
         await this.loadPhrases();
         await this.getStandupTime();
         await this.getUsers();
-        moment.locale('pl');
         this.runSchedule();
     }
 
@@ -41,7 +49,43 @@ module.exports = class SiaraBot extends SlackBot {
     }
 
     getTime() {
-        return moment().format('LTS');
+        return moment().format(`LTS`);
+    }
+
+    getDay() {
+        return moment().format(`dddd`);
+    }
+
+    isWeekend() {
+        return this.weekdays.includes(this.getDay());
+    }
+
+    isHoliday () {
+        return this.holidays.includes(moment().format(`L`));
+    }
+
+    async loadHolidays() {
+        const holidaysRef = await db.ref(`/holidays/`);
+        holidaysRef.on(`value`, holidays => {
+            this.holidays = holidays.val();
+        });
+    }
+
+    async loadWeekdays() {
+        const weekdaysRef = await db.ref(`/weekdays/`);
+        weekdaysRef.on(`value`, weekdays => {
+            this.weekdays = weekdays.val();
+        });
+    }
+
+    async loadLocale() {
+        const localeRef = await db.ref(`/locale/`);
+        localeRef.on(`value`, locale => {
+            this.locale = locale.val();
+            moment.locale(this.locale);
+        });
+
+
     }
 
     userByName(name) {
@@ -49,15 +93,15 @@ module.exports = class SiaraBot extends SlackBot {
     }
 
     async getStandupTime() {
-        const scheduleRef = await db.ref('/schedule/');
-        scheduleRef.on('value', schedule => {
+        const scheduleRef = await db.ref(`/schedule/`);
+        scheduleRef.on(`value`, schedule => {
             this.schedule = schedule.val();
         });
     }
 
     async getUsers () {
-        const usersRef = await db.ref('/users/');
-        usersRef.on('value', async users => {
+        const usersRef = await db.ref(`/users/`);
+        usersRef.on(`value`, async users => {
             this._users = this.users = users.val();
         });
     }
@@ -71,9 +115,12 @@ module.exports = class SiaraBot extends SlackBot {
     }
 
     checkSchedule(time) {
+        if (this.isWeekend() || this.isHoliday()) {
+            return;
+        }
         this.schedule.forEach((item, index) => {
             if (item.time === time) {
-                if (item.phrase === 'standup') {
+                if (item.phrase === STANDUP_PHRASE) {
                     this.sendMessage(this.schedule[index].channel, this.pickPhrase(this.schedule[index].phrase, this.getUser()));
                 } else {
                     this.sendMessage(this.schedule[index].channel, this.pickPhrase(this.schedule[index].phrase), undefined);
@@ -86,7 +133,7 @@ module.exports = class SiaraBot extends SlackBot {
         return firebase.auth().signInWithEmailAndPassword(process.env.FIREBASE_EMAIL, process.env.FIREBASE_PASS);
     }
 
-    composeMessage (text, target = '') {
+    composeMessage (text, target = ``) {
         let message;
         if (text.replace(TARGET_TAG, target) === text) {
             message = `${target} ${text}`;
@@ -115,9 +162,9 @@ module.exports = class SiaraBot extends SlackBot {
     }
 
     async loadPhrases () {
-        const phrasesRef = await db.ref('/phrases/');
-        phrasesRef.on('value', phrases => {
-            console.log('Phrases downloaded! Total count: ' + phrases.val().length);
+        const phrasesRef = await db.ref(`/phrases/`);
+        phrasesRef.on(`value`, phrases => {
+            console.log(`Phrases downloaded! Total count: ` + phrases.val().length);
             this._phrases = this.phrases = phrases.val();
         });
     }
@@ -156,12 +203,12 @@ module.exports = class SiaraBot extends SlackBot {
     }
 
     parseInput (line) {
-        const splitted = line.split(' ');
+        const splitted = line.split(` `);
         const command = splitted.shift();
-        let target = splitted.join(' ');
+        let target = splitted.join(` `);
         let keyword = command.split(COMMAND_OPERATOR)[1];
-        if (keyword.includes('channel') || keyword.includes('here')) {
-            keyword = target = '';
+        if (keyword.includes(CHANNEL_OPERATOR) || keyword.includes(HERE_OPERATOR)) {
+            keyword = target = ``;
         }
         return {
             keyword,
