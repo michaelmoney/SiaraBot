@@ -34,6 +34,7 @@ module.exports = class SiaraBot extends SlackBot {
         this._users = [];
         this.holidays = [];
         this.weekdays = [];
+        this.standupUrl = undefined;
         await this.connectDb();
         await this.loadLocale();
         await this.loadWeekdays();
@@ -41,6 +42,7 @@ module.exports = class SiaraBot extends SlackBot {
         await this.loadPhrases();
         await this.getStandupTime();
         await this.getUsers();
+        await this.loadStandupUrl();
         this.runSchedule();
     }
 
@@ -75,6 +77,13 @@ module.exports = class SiaraBot extends SlackBot {
         const weekdaysRef = await db.ref(`/weekdays/`);
         weekdaysRef.on(`value`, weekdays => {
             this.weekdays = weekdays.val();
+        });
+    }
+
+    async loadStandupUrl () {
+        const weekdaysRef = await db.ref(`/standupUrl/`);
+        weekdaysRef.on(`value`, standupUrl => {
+            this.standupUrl = standupUrl.val();
         });
     }
 
@@ -121,9 +130,9 @@ module.exports = class SiaraBot extends SlackBot {
         this.schedule.forEach((item, index) => {
             if (item.time === time) {
                 if (item.phrase === STANDUP_PHRASE) {
-                    this.sendMessage(this.schedule[index].channel, this.pickPhrase(this.schedule[index].phrase, this.getUser()));
+                    this.sendMessage(this.schedule[index].channel, this.pickPhrase(this.schedule[index].phrase, this.getUser()), item.phrase);
                 } else {
-                    this.sendMessage(this.schedule[index].channel, this.pickPhrase(this.schedule[index].phrase), undefined);
+                    this.sendMessage(this.schedule[index].channel, this.pickPhrase(this.schedule[index].phrase), undefined, undefined);
                 }
             }
         })
@@ -182,11 +191,15 @@ module.exports = class SiaraBot extends SlackBot {
         }
     }
 
-    sendMessage(channel, text) {
+    sendMessage(channel, text, command) {
         if (!text) {
             return;
         }
-        this.postMessage(channel, `_${text}_`, params);
+        if (command === STANDUP_PHRASE) {
+            this.postMessage(channel, `_${text}_ ${this.standupUrl}`, params);
+        } else {
+            this.postMessage(channel, `_${text}_`, params);
+        }
     }
 
     onMessage (msgData) {
@@ -194,9 +207,9 @@ module.exports = class SiaraBot extends SlackBot {
             if (!this.isMessageFromBot(msgData)) {
                 const {keyword, target } = this.parseMessage(msgData);
                 if (keyword === HELP_COMMAND) {
-                    this.sendMessage(msgData.channel, this.getCommandList());
+                    this.sendMessage(msgData.channel, this.getCommandList(), keyword);
                 } else {
-                    this.sendMessage(msgData.channel, this.pickPhrase(keyword, target));
+                    this.sendMessage(msgData.channel, this.pickPhrase(keyword, target), keyword);
                 }
             }
         }
