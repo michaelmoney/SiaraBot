@@ -15,7 +15,8 @@
     "start": "node index.js",
     "lint": "node_modules/eslint/bin/eslint.js 'bot/*.js' 'index.js'",
     "fix": "node_modules/eslint/bin/eslint.js eslint --fix 'bot/*.js' 'index.js'",
-    "test": "node_modules/jest/bin/jest.js bot/bot.test.js --showConfig"
+    "jest": "node_modules/jest/bin/jest.js --verbose bot/bot.test.js",
+    "test": "npm run lint && npm run jest"
   },
   "jest": {
     "verbose": true,

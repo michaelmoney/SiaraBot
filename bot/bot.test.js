@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable object-shorthand */
-const db = require('./db.json');
+const db = require('./db');
 const Bot = require('./bot');
 
 const firebase = require(`firebase`);
