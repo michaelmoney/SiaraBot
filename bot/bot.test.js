@@ -187,7 +187,7 @@ describe(`When postMessageToChannel() method is called`, () => {
             const botParams = {
                 icon_emoji: `:siara:`,
             };
-            bot.postMessageToChannel(...bot, ...params);
+            bot.postMessageToChannel(...params);
             expect(postMessageSpy).toHaveBeenCalledWith(params[0], `_${params[1]}_`, botParams);
         });
     });
@@ -199,7 +199,7 @@ describe(`When postMessageToChannel() method is called`, () => {
             const botParams = {
                 icon_emoji: `:siara:`,
             };
-            bot.postMessageToChannel(...bot, ...params);
+            bot.postMessageToChannel(...params);
             expect(postMessageSpy).toHaveBeenCalledWith(params[0], `_${params[1]}_ ${bot.standupUrl}`, botParams);
         });
     });
