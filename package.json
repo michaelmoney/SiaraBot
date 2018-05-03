@@ -18,7 +18,12 @@
     "test": "node_modules/jest/bin/jest.js bot/bot.test.js"
   },
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json"
+    ]
   },
   "dependencies": {
     "dotenv": "5.0.0",
