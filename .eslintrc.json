@@ -1,0 +1,29 @@
+{
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "quotes": ["error", "single",
+      {
+        "allowTemplateLiterals": true
+      }],
+    "indent": ["error", 4],
+    "import/no-unresolved": [0, {"commonjs": true, "amd": true}],
+    "class-methods-use-this": [0],
+    "arrow-parens": ["error", "as-needed"],
+    "no-underscore-dangle": [
+      "error",
+      {
+        "allowAfterThis": true
+      }
+    ],
+    "max-len": ["warn", 160],
+    "no-multi-assign": "off",
+    "no-console": "error"
+  }
+}

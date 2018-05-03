@@ -10,7 +10,7 @@ views/
 public
 Procfile
 app.json
-
+coverage
 .idea
 
 # Docker
@@ -22,3 +22,6 @@ docker-compose.yml
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 .ebextensions
+
+database file
+db.json
