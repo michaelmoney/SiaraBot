@@ -24,4 +24,4 @@ docker-compose.yml
 .ebextensions
 
 database file
-db.json
+
