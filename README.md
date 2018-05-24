@@ -1,31 +1,41 @@
 <img src="https://travis-ci.org/michaelmoney/SiaraBot.svg?branch=master">
 
-# SiaraBot 
+# SiaraBot @siara 
 
 *A Slack bot that **brings fun and joy to your everyday slack's communication**.*
+
+![Preview1](./assets/siara.png)
 
 
 ## Description
 **SiaraBot** was designed to bring joy and fun into Slack's channels conversations. Depending on the situation.
-"Siara" **welcomes, motivates, amuses, teaches or blames** team members.
-
-**SiaraBot** is a Node.js bot based on polish comedy movie "Kiler" character - **Stefan "Siara" Siarzewski**. 
-The main concept of the bot was inspired from <a href="https://github.com/yougov/pmxbot" target="_blank"> YouGov's "pmxbot"</a>.
-
-<img src="http://michaelmoney.pl/apps/siarabot/siara-logo-new.png" alt="siara">
+"Siara" **welcomes, motivates, amuses, teaches or blames** team members. He also reminds about **standup meeting** and **code-reviews**. Siara supports and enforces now Firebase connection - all configurable options are stored in the real 
+-time firebase database. 
+**@siara** is a Node.js bot based on polish comedy movie "Kiler" character - **Stefan "Siara" Siarzewski**. 
 
 
-### To motivate someone:
-<img src="http://michaelmoney.pl/apps/siarabot/brawo.gif" alt="brawo">
+## **Top features:**
 
-### To blame someone:
-<img src="http://michaelmoney.pl/apps/siarabot/chmurka.gif" alt="chmurka">
+- ### Reminds devs about stand-up time (with optional video url)
+![Preview1](./assets/standup-example.jpg)
 
-### To welcome someone:
-<img src="http://michaelmoney.pl/apps/siarabot/dziendobry.gif" alt="dziendobry">
+- ### Reminds devs to make a code-review
+![Preview1](./assets/code-review-example.jpg)
+
+- ### To motivate someone (type "!brawo"):
+![Preview1](./assets/brawo.gif)
+
+- ### To blame someone (type "!chmurka"):
+![Preview1](./assets/chmurka.gif)
+
+- ### To find "missing" teammate (type "!gdzie @teammate"):
+![Preview1](./assets/siara-gdzie.gif)
+
+- ### To welcome someone (type "!dziendobry"):
+![Preview1](./assets/dziendobry.gif)
 
 
-## Before you start
+## How to run SiaraBot?
 
 
 **1. Clone repository:**
@@ -40,31 +50,52 @@ git clone https://github.com/michaelmoney/SiaraBot.git
 npm install
 ```
 
-**NOTE: Current version of SiaraBot uses ES6 features. Node version  6.x.x is required.**
+**NOTE: Current version of SiaraBot uses ES6 features and async/await. Node version  7.6.x is required.**
 
-**3. Setup you local variable `BOT_TOKEN` variable with token:**
+**3. Create a new Firebase database and setup initial keys/values :**
 
+3.1 Import `siara-export.json` to your newly created Firebase database. You can edit values later.
+
+- **weekdays** - Prevent from running schedule tasks during weekends.
+- **holidays** - Prevent from running schedule tasks on specific date(s). 
+- **locale** - Setup locale for MomentJS. Feature has _Work-In-Progress_ status.
+- **phrases (command list and texts)** - Define your own funny command and texts.
+ 
+![Preview1](./assets/firebase-import.jpg)
+
+
+**4. Setup all environment variables:**
+
+4.1 You can manually export all environment variables by running in terminal:
 ```
 export BOT_TOKEN=YOUR_SLACK_TOKEN
 ```
+4.2 Create `.env` file in root directory and define inside all variables. 
+```
+    FIREBASE_PASS: YOUR_VARIABLE
+    FIREBASE_EMAIL: YOUR_VARIABLE
+    FIREBASE_API_KEY: YOUR_VARIABLE
+    FIREBASE_AUTHDOMAIN: YOUR_VARIABLE
+    FIREBASE_DB_URL: YOUR_VARIABLE
+    FIREBASE_STORAGE_BUCKET: YOUR_VARIABLE
+    BOT_TOKEN: YOUR_VARIABLE
+```
 
-**4. (Optional) To veriify if token is set-up, type:**
+
+**5. Run SiaraBot:**
 
 ```
-echo  $BOT_TOKEN
+npm start
 ```
 
-### How to run SiaraBot?
-
-Just run in the terminal:
-```
-npm start 
-```
 ## Can I customise SiaraBot?
 
-### 1.Can I add my own phrases? 
+### 1.Can I add my own commands (phrases) and texts? 
 
-Yes. SiaraBot's texts can be easily modified by changing <a href="https://github.com/michaelmoney/SiaraBot/blob/master/assets/phrases.json">`phrases.json`</a> file.
+Yes. SiaraBot's texts can be easily extended and modified by changing database's **"phrases"** key value. All texts are stored in **"text"** array. Just update it.
+
+![Preview1](./assets/firebase-phrases.jpg)
+
 
 ### 2.Can I use different name and different avatar icon for SiaraBot?
 Yes. You setup different name, for example **SuperManBot** and upload different avatar icon.
@@ -78,40 +109,49 @@ Yes. You setup different name, for example **SuperManBot** and upload different 
 ``` 
 
 ## Supported commands (keywords):
-- !piwo
-- !standup
-- !kilim
-- !brawo
-- !pomylka
-- !doroboty
-- !zmiana
-- !spadam
-- !tonieja
-- !dzieki
-- !ufam
-- !gdzie
-- !zarobiony
-- !dziendobry
-- !niewiem
+- spadam
+- zmiana
+- standup
+- chmurka
+- tonieja
+- dzieki
+- cr
+- pomylka
+- kilim
+- ufam
+- lunch
+- gdzie
+- zarobiony
+- doroboty
+- pytanie
+- idziemy
+- cycki
+- dziendobry
+- niewiem
+- n
+- brawo
+- piwo
+- wow
 
 ## Where to deploy SiaraBot?
 SiaraBot could be run on any Node web server. It's very easy to deploy and use SiaraBot on following cloud platforms:
 - Heroku
 - Amazon Web Services (AWS)
-
+- any node server > 7 (async / await)
 
 ## How to add SiaraBot into my Slack team?
-If you have already deployed SiaraBot and have an instance running it's very simple.
-In the Slack settings, you need to create a new bot and retreive a token.
+If you have already deployed SiaraBot  and have an instance running (`npm start`) it's very simple.
+In your Slack settings, you need to create a new bot and retrieve a token.
 
 To add a  new bot please read following description:
 https://api.slack.com/bot-users
 
 To keep your token safe (outside repo), `SiaraBot` load token from the ENV variable.
 
-<img src="http://michaelmoney.pl/apps/siarabot/setup-1.jpg" alt="setup bot" style="width:60%">
+![Preview1](./assets/setup-slack-1.jpg)
+![Preview1](./assets/setup-slack-2.png)
 
-<img src="http://michaelmoney.pl/apps/siarabot/setup-2.png" alt="setup bot" style="width:60%">
+
 
 ## Example of usage SiaraBot
 
@@ -123,9 +163,9 @@ To see all available phrases, type:
 !help
 ``` 
 
-### SiaraBot example keywords
+### SiaraBot example commands and texts
 
-Inside Slack window type a keyword beginning with "!", optionally adding `@user` at the end of command:
+Inside Slack window type a command beginning with "!", optionally adding `@user` at the end of command:
 
 **To motivate someone:**
 ```

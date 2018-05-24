@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+const firebase = require(`firebase`);
+
 const SiaraBot = require('./bot/bot');
 
 const REQUIRED_ENVS = [
@@ -12,22 +14,21 @@ const REQUIRED_ENVS = [
     'BOT_TOKEN',
 ];
 
-const checkEnvs = envs => {
-    return envs.map(env => {
-        if (!process.env[env]) {
-            console.error(`VARIABLE ${env} NOT FOUND!`);
-            return false;
-        } else {
-            console.log(`VARIABLE ${env} OK!`);
-            return true;
-        }
-    })
-};
+const checkEnvs = envs => envs.map(env => {
+    if (!process.env[env]) {
+        // eslint-disable-next-line no-console
+        console.error(`VARIABLE ${env} NOT FOUND!`);
+        return false;
+    }
+    // eslint-disable-next-line no-console
+    console.log(`VARIABLE ${env} OK!`);
+    return true;
+});
 
 const runApp = async () => {
-    if (checkEnvs(REQUIRED_ENVS).includes(false)){
+    if (checkEnvs(REQUIRED_ENVS).includes(false)) {
+        // eslint-disable-next-line no-console
         console.error(`App won't work without above variables. Please add it and restart app.`);
-        return;
     } else {
         // Init SiaraBot
         const siarBot = new SiaraBot({
@@ -35,10 +36,27 @@ const runApp = async () => {
             name: `"Siara" Siarzewski`,
         });
 
-        await siarBot.init();
+        const firebaseConfig = {
+            apiKey: process.env.FIREBASE_API_KEY,
+            authDomain: process.env.FIREBASE_AUTHDOMAIN,
+            databaseURL: process.env.FIREBASE_DB_URL,
+            storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+            email: process.env.FIREBASE_EMAIL,
+            password: process.env.FIREBASE_PASS,
+        };
+
+        await siarBot.init(firebase, firebaseConfig);
         siarBot.on('message', siarBot.onMessage);
-        console.log('SiaraBot is runnning...');
     }
 };
 
-runApp();
+runApp().then(() => {
+    // eslint-disable-next-line no-console
+    console.info('SiaraBot is runnning...');
+},
+err => {
+    // eslint-disable-next-line no-console
+    console.error('Ups something went wrong ¯\\_(ツ)_/¯', err);
+    process.exit(0);
+},
+);
