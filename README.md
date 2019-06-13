@@ -59,7 +59,7 @@ npm install
 - **weekdays** - Prevent from running schedule tasks during weekends.
 - **holidays** - Prevent from running schedule tasks on specific date(s). 
 - **locale** - Setup locale for MomentJS. Feature has _Work-In-Progress_ status.
-- **phrases (command list and texts)** - Define your own funny command and texts.
+- **commands (command list and texts)** - Define your own funny command and texts.
  
 ![Preview1](./assets/firebase-import.jpg)
 
@@ -90,9 +90,9 @@ npm start
 
 ## Can I customise SiaraBot?
 
-### 1.Can I add my own commands (phrases) and texts? 
+### 1.Can I add my own commands and texts? 
 
-Yes. SiaraBot's texts can be easily extended and modified by changing database's **"phrases"** key value. All texts are stored in **"text"** array. Just update it.
+Yes. SiaraBot's texts can be easily extended and modified by changing database's **"commands"** key value. All texts are stored in **"text"** array. Just update it.
 
 ![Preview1](./assets/firebase-phrases.jpg)
 
@@ -100,7 +100,7 @@ Yes. SiaraBot's texts can be easily extended and modified by changing database's
 ### 2.Can I use different name and different avatar icon for SiaraBot?
 Yes. You setup different name, for example **SuperManBot** and upload different avatar icon.
 
-## How to print all available phrases?
+## How to print all available commands?
 
 **In the Slack's message input, type:**
 
@@ -155,9 +155,9 @@ To keep your token safe (outside repo), `SiaraBot` load token from the ENV varia
 
 ## Example of usage SiaraBot
 
-### How to print all available phrases?
+### How to print all available commands?
 
-To see all available phrases, type:
+To see all available commands, type:
 
 ```
 !help

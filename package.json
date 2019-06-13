@@ -25,7 +25,10 @@
       "jsx",
       "json"
     ],
-    "moduleDirectories": ["node_modules", "bot"]
+    "moduleDirectories": [
+      "node_modules",
+      "bot"
+    ]
   },
   "dependencies": {
     "dotenv": "5.0.0",

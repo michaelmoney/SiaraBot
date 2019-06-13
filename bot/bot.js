@@ -1,7 +1,9 @@
 const SlackBot = require(`../node_modules/slackbots`);
 const _ = require(`lodash`);
 const moment = require(`moment`);
-
+const toArray = require(`../utils/to-array`);
+const asyncForEach = require(`../utils/async-for-each`);
+const ROUTES = require(`../constants/firebase-routes`);
 const MESSAGE = `message`;
 const TARGET_TAG = `<target>`;
 const HELP_COMMAND = `help`;
@@ -10,7 +12,7 @@ const params = {
     icon_emoji: `:siara:`,
 };
 
-const STANDUP_PHRASE = `standup`;
+const STANDUP_COMMAND = `standup`;
 const CHANNEL_OPERATOR = `channel`;
 const HERE_OPERATOR = `here`;
 
@@ -22,12 +24,12 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {Promise<void>}
      */
     async init(firebase, firebaseConfig) {
-        this.phrases = [];
-        this._phrases = [];
-        this.users = [];
+        this.commands = [];
+        this._commands = [];
+        this.slackUsers = [];
         this._users = [];
         this.holidays = [];
-        this.weekendDays = [];
+        this.weekends = [];
         this.standupUrl = '';
         this.firebase = firebase;
         this.firebase.initializeApp(firebaseConfig);
@@ -35,7 +37,7 @@ module.exports = class SiaraBot extends SlackBot {
         moment.locale(this.locale || 'PL');
         await this.connectDb(firebaseConfig);
         await this.fetchData();
-        this.runSchedule();
+        await this.runSchedule();
     }
 
     /**
@@ -46,7 +48,7 @@ module.exports = class SiaraBot extends SlackBot {
         await this.loadLocale();
         await this.loadWeekendDays();
         await this.loadHolidays();
-        await this.loadPhrases();
+        await this.loadCommands();
         await this.loadSchedule();
         await this.loadUsers();
         await this.loadStandupUrl();
@@ -56,8 +58,8 @@ module.exports = class SiaraBot extends SlackBot {
      * Run checkAndRunSchedule method on every second.
      * @returns {void}
      */
-    runSchedule() {
-        setInterval(() => this.checkAndRunSchedule(this.getTime()), 1000);
+    async runSchedule() {
+        await setInterval(async () => this.checkAndRunSchedule(this.getTime()), 1000);
     }
 
     /**
@@ -86,7 +88,7 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {boolean} True, when today is a weekend day
      */
     isWeekend() {
-        return this.weekendDays.includes(this.getDay());
+        return this.weekends.includes(this.getDay());
     }
 
     /**
@@ -96,7 +98,8 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {boolean} True, when today is a holiday
      */
     isHoliday() {
-        return this.holidays.includes(moment().format(`L`));
+        const currentDate = moment().format(`L`);
+        return !!_.find(this.holidays, { date: currentDate });
     }
 
     /**
@@ -113,15 +116,15 @@ module.exports = class SiaraBot extends SlackBot {
     }
 
     /**
-     * Loads phrases from the DB.
+     * Loads commands from the DB.
      * @returns {Promise<void>}
      */
-    async loadPhrases() {
-        const phrasesRef = await this.database.ref(`/phrases/`);
-        phrasesRef.on(`value`, phrases => {
+    async loadCommands() {
+        const commandsRef = await this.database.ref(`${ROUTES.COMMANDS}`);
+        commandsRef.on(`value`, commands => {
             // eslint-disable-next-line no-console
-            console.log(`Phrases downloaded! Total count: ${phrases.val().length}`);
-            this._phrases = this.phrases = phrases.val();
+            console.log(`Commands downloaded! Total count: ${toArray(commands.val()).length}`);
+            this._commands = this.commands = commands.val();
         });
     }
 
@@ -131,9 +134,9 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {Promise<void>}
      */
     async loadWeekendDays() {
-        const weekendDaysRef = await this.database.ref(`/weekdays/`);
-        weekendDaysRef.on(`value`, weekdays => {
-            this.weekendDays = weekdays.val();
+        const weekendsRef = await this.database.ref(`${ROUTES.WEEKENDS}`);
+        weekendsRef.on(`value`, weekends => {
+            this.weekends = weekends.val();
         });
     }
 
@@ -143,7 +146,7 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {Promise<void>}
      */
     async loadStandupUrl() {
-        const weekdaysRef = await this.database.ref(`/standupUrl/`);
+        const weekdaysRef = await this.database.ref(`${ROUTES.STANDUP_URL}`);
         weekdaysRef.on(`value`, standupUrl => {
             this.standupUrl = standupUrl.val();
         });
@@ -155,7 +158,7 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {Promise<void>}
      */
     async loadLocale() {
-        const localeRef = await this.database.ref(`/locale/`);
+        const localeRef = await this.database.ref(`${ROUTES.LOCALE}`);
         localeRef.on(`value`, locale => {
             this.locale = locale.val();
         });
@@ -167,15 +170,15 @@ module.exports = class SiaraBot extends SlackBot {
      * Array of scheduled tasks
      * [{
           "channel": "standup",
-          "phrase": "standup",
+          "command": "standup",
           "time": "08:13:00"
         }]
      * @returns {Promise<void>}
      */
     async loadSchedule() {
-        const scheduleRef = await this.database.ref(`/schedule/`);
-        scheduleRef.on(`value`, schedule => {
-            this.schedule = schedule.val();
+        const scheduleRef = await this.database.ref(`${ROUTES.SCHEDULES}`);
+        scheduleRef.on(`value`, schedules => {
+            this.schedules = schedules.val();
         });
     }
 
@@ -184,9 +187,9 @@ module.exports = class SiaraBot extends SlackBot {
       * @returns {Promise<void>}
      */
     async loadUsers() {
-        const usersRef = await this.database.ref(`/users/`);
+        const usersRef = await this.database.ref(`${ROUTES.USERS}`);
         usersRef.on(`value`, async users => {
-            this._users = this.users = users.val();
+            this._users = this.slackUsers = users.val();
         });
     }
 
@@ -195,20 +198,27 @@ module.exports = class SiaraBot extends SlackBot {
      * @param name {string} Pure user name value
      * @returns {string} Slack's username tag
      */
-    userByName(name) {
-        return `<@${name}>`;
+    async userByName(name) {
+        const user = await this.getUser(name);
+        return user.id ? `<@${user.id}>` : ``;
     }
 
     /**
      * Get random user name from the users list.
      * @returns {string} Slack's user name
      */
-    getRandomUser() {
-        this.users = this.users.length ? this.users : this._users;
-        const number = this.getRandomNumber(0, this.users.length - 1);
-        const randomUser = this.users[number];
-        this.users = this.users.filter(user => user !== randomUser);
-        return this.userByName(randomUser);
+    async getRandomUser() {
+        const usersAsArray = toArray(this.slackUsers);
+        this.slackUsers = usersAsArray.length ? this.slackUsers : this._users;
+        const number = this.getRandomNumber(0, toArray(this.slackUsers).length - 1);
+        const randomUserId = usersAsArray[number];
+        const randomUser = this.slackUsers[randomUserId];
+        usersAsArray.forEach(key => {
+            if (this.slackUsers[key].name !== randomUser.name) {
+                delete this.slackUsers[key];
+            }
+        });
+        return this.userByName(randomUser.name);
     }
 
     /**
@@ -216,16 +226,17 @@ module.exports = class SiaraBot extends SlackBot {
      * @example "19:36:37"
      * @param time {string} time
      */
-    checkAndRunSchedule(time) {
+    async checkAndRunSchedule(time) {
         if (this.isWeekend() || this.isHoliday()) {
             return;
         }
-        this.schedule.forEach((item, index) => {
-            if (item.time === time) {
-                if (item.phrase === STANDUP_PHRASE) {
-                    this.postMessageToChannel(this.schedule[index].channel, this.getMessage(this.schedule[index].phrase, this.getRandomUser()), item.phrase);
+        await asyncForEach(toArray(this.schedules), async key => {
+            const schedule = this.schedules[key];
+            if (schedule.time === time) {
+                if (schedule.command === STANDUP_COMMAND) {
+                    this.postMessageToChannel(schedule.channel, this.getMessage(schedule.command, await this.getRandomUser()), schedule.command);
                 } else {
-                    this.postMessageToChannel(this.schedule[index].channel, this.getMessage(this.schedule[index].phrase), undefined, undefined);
+                    await this.postMessageToChannel(schedule.channel, this.getMessage(schedule.command), undefined, undefined);
                 }
             }
         });
@@ -263,11 +274,12 @@ module.exports = class SiaraBot extends SlackBot {
      * Get command item object on given "command".
      * @param command {string} Word that bot understand
      * @example "kilim", "brawo"
-     * @param phrases
+     * @param commands
      * @returns {Object} CommandItem object
      */
-    getCommandItem(command, phrases = this.phrases) {
-        return Object.assign({}, _.find(phrases, phrase => phrase.name === command));
+    getCommandItem(command, commands = this.commands) {
+        const searchedCommand = _.find(commands, { name: command });
+        return { ...searchedCommand };
     }
 
     /**
@@ -275,7 +287,7 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {string}
      */
     getCommandList() {
-        return `*Dostępne komendy:* ${this._phrases.map(phrase => phrase.name).toString()}`;
+        return `*Dostępne komendy:* ${toArray(this._commands).map(key => this._commands[key].name).toString()}`;
     }
 
     /**
@@ -332,7 +344,7 @@ module.exports = class SiaraBot extends SlackBot {
         if (!text) {
             return;
         }
-        if (command === STANDUP_PHRASE) {
+        if (command === STANDUP_COMMAND) {
             this.postMessage(channel, `_${text}_ ${this.standupUrl}`, params);
         } else {
             this.postMessage(channel, `_${text}_`, params);
@@ -401,7 +413,7 @@ module.exports = class SiaraBot extends SlackBot {
     /**
      * Returns random text.
      * @type string
-     * @returns {string} Random text for current phrase
+     * @returns {string} Random text for current command
      */
     getRandomText() {
         const randomNumber = this.getRandomNumber(0, this.currentCommandItem.texts.length);
@@ -415,19 +427,18 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {void}
      */
     resetTexts(command) {
-        const searchedPhrase = this.getCommandItem(command);
-        const originalPhrase = this.getCommandItem(command, this._phrases);
-        this.phrases = this.phrases.map(phrase => {
-            if (phrase.name === searchedPhrase.name) {
-                return originalPhrase;
+        const searchedCommand = this.getCommandItem(command);
+        const originalCommand = this.getCommandItem(command, this._commands);
+        toArray(this.commands).forEach(key => {
+            if (this.commands[key].name === searchedCommand.name) {
+                this.commands[key] = originalCommand;
             }
-            return phrase;
         });
         this.currentCommandItem = this.getCommandItem(command);
     }
 
     /**
-     *  It disallow using texts repeatedly (twice in a row). Method removes last used text from "currentCommandItem.texts" array and update phrases array.
+     *  It disallow using texts repeatedly (twice in a row). Method removes last used text from "currentCommandItem.texts" array and update commands array.
      *  When there's no more texts, "bot.resetTexts" method is called to bring initial values.
      * @param text
      * @type string
@@ -435,12 +446,13 @@ module.exports = class SiaraBot extends SlackBot {
      */
     updateTexts(text) {
         this.currentCommandItem.texts = _.filter(this.currentCommandItem.texts, item => item !== text);
-        this.phrases = this._phrases.map(phrase => {
-            if (phrase.name === this.currentCommandItem.name) {
+        this.commands = toArray(this._commands).map(key => {
+            if (this._commands[key].name === this.currentCommandItem.name) {
                 return this.currentCommandItem;
             }
-            return phrase;
+            return this._commands[key];
         });
     }
+
 };
 

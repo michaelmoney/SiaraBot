@@ -26,7 +26,7 @@ const bot = new Bot(
 // TODO: Write more tests!
 describe(`When bot is initialized`, () => {
     beforeEach(() => {
-        bot.phrases = bot._phrases = db.phrases;
+        bot.commands = bot._commands = db.commands;
     });
     test(`Instance of Bot should be defined`, () => {
         expect(bot instanceof Bot).toBeTruthy();
@@ -35,9 +35,9 @@ describe(`When bot is initialized`, () => {
 
 describe(`When 'getCommandItem()' is called`, () => {
     beforeEach(() => {
-        bot.phrases = bot._phrases = db.phrases;
+        bot.commands = bot._commands = db.commands;
     });
-    test(`it should return a commandItem (phrase) object`, () => {
+    test(`it should return a commandItem (command) object`, () => {
         expect(bot.getCommandItem(`standup`)).toBeDefined();
         expect(bot.getCommandItem(`standup`).name).toBeDefined();
         expect(bot.getCommandItem(`standup`).type).toBeDefined();
@@ -55,7 +55,7 @@ describe(`When 'getRandomNumber' is called`, () => {
 
 describe(`When 'getMessage' is called`, () => {
     beforeEach(() => {
-        bot.phrases = bot._phrases = db.phrases;
+        bot.commands = bot._commands = db.commands;
         bot.getMessage(`standup`, `bar`);
     });
     test(`texts array should be reduced`, () => {
@@ -68,17 +68,17 @@ describe(`When 'getMessage' is called`, () => {
 
 describe(`When 'init' is called`, async () => {
     beforeEach(async () => {
-        bot.phrases = bot._phrases = db.phrases;
-        bot.schedule = [];
+        bot.commands = bot._commands = db.commands;
+        bot.schedules = [];
         await bot.init(firebase, {});
     });
 
     test(`all variables should be defined & initialized`, () => {
-        expect(bot._phrases.length).toEqual(0);
-        expect(bot.phrases.length).toEqual(0);
-        expect(bot.weekendDays.length).toEqual(0);
+        expect(bot._commands.length).toEqual(0);
+        expect(bot.commands.length).toEqual(0);
+        expect(bot.weekends.length).toEqual(0);
         expect(bot.holidays.length).toEqual(0);
-        expect(bot.users.length).toEqual(0);
+        expect(bot.slackUsers.length).toEqual(0);
         expect(bot._users.length).toEqual(0);
     });
     test(`firebase.initializeApp() method should be called`, () => {
@@ -94,25 +94,25 @@ describe(`When 'init' is called`, async () => {
         expect(bot.firebase.auth().signInWithEmailAndPassword).toHaveBeenCalled();
     });
     test(`should load "locale"`, () => {
-        expect(bot.database.ref).toHaveBeenCalledWith(`/locale/`);
+        expect(bot.database.ref).toHaveBeenCalledWith(`${ROUTES.LOCALE}`);
     });
-    test(`should load "schedule"`, () => {
-        expect(bot.database.ref).toHaveBeenCalledWith(`/schedule/`);
+    test(`should load "schedules"`, () => {
+        expect(bot.database.ref).toHaveBeenCalledWith(`${ROUTES.SCHEDULES}`);
     });
     test(`should load "users"`, () => {
-        expect(bot.database.ref).toHaveBeenCalledWith(`/users/`);
+        expect(bot.database.ref).toHaveBeenCalledWith(`${ROUTES.USERS}`);
     });
     test(`should load "standupUrl"`, () => {
-        expect(bot.database.ref).toHaveBeenCalledWith(`/standupUrl/`);
+        expect(bot.database.ref).toHaveBeenCalledWith(`${ROUTES.STANDUP_URL}`);
     });
-    test(`should load "weekdays"`, () => {
-        expect(bot.database.ref).toHaveBeenCalledWith(`/weekdays/`);
+    test(`should load "weekends"`, () => {
+        expect(bot.database.ref).toHaveBeenCalledWith(`${ROUTES.WEEKENDS}`);
     });
-    test(`should load "phrases"`, () => {
-        expect(bot.database.ref).toHaveBeenCalledWith(`/phrases/`);
+    test(`should load "commands"`, () => {
+        expect(bot.database.ref).toHaveBeenCalledWith(`${ROUTES.COMMANDS}`);
     });
     test(`should load "holidays"`, () => {
-        expect(bot.database.ref).toHaveBeenCalledWith(`/holidays/`);
+        expect(bot.database.ref).toHaveBeenCalledWith(`${ROUTES.HOLIDAYS}`);
     });
 });
 
@@ -165,10 +165,10 @@ describe(`when formatMessage method is called`, () => {
 
 describe(`When getRandomUser() method is called`, () => {
     beforeEach(() => {
-        bot.users = [`mike`, `johny`, `ernest`];
+        bot.slackUsers = [`mike`, `johny`, `ernest`];
     });
     test(`it should return a user name from the list`, () => {
-        const expectedUsers = bot.users.map(user => bot.userByName(user));
+        const expectedUsers = bot.slackUsers.map(user => bot.userByName(user));
         const randomUser = bot.getRandomUser();
         expect(expectedUsers.includes(randomUser)).toBeTruthy();
     });

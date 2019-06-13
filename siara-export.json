@@ -17,7 +17,7 @@
     "04.05.2018"
   ],
   "locale": "pl",
-  "phrases": [
+  "commands": [
     {
       "name": "spadam",
       "texts": [
@@ -251,7 +251,7 @@
       "type": "phrase"
     }
   ],
-  "schedule": [
+  "schedules": [
     null,
     null,
     {
