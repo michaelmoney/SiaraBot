@@ -109,7 +109,7 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {Promise<void>}
      */
     async loadHolidays() {
-        const holidaysRef = await this.database.ref(`/holidays/`);
+        const holidaysRef = await this.database.ref(ROUTES.HOLIDAYS);
         holidaysRef.on(`value`, holidays => {
             this.holidays = holidays.val();
         });
@@ -195,10 +195,10 @@ module.exports = class SiaraBot extends SlackBot {
 
     /**
      * Get a Slack's username tag.
-     * @param name {string} Pure user name value
+     * @param user {string} Pure user name value
      * @returns {string} Slack's username tag
      */
-    async userByName(name) {
+    async userByName({ name }) {
         const user = await this.getUser(name);
         return user.id ? `<@${user.id}>` : ``;
     }
@@ -208,17 +208,17 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {string} Slack's user name
      */
     async getRandomUser() {
-        const usersAsArray = toArray(this.slackUsers);
+        const usersAsArray = _.map(this.slackUsers);
         this.slackUsers = usersAsArray.length ? this.slackUsers : this._users;
-        const number = this.getRandomNumber(0, toArray(this.slackUsers).length - 1);
-        const randomUserId = usersAsArray[number];
-        const randomUser = this.slackUsers[randomUserId];
-        usersAsArray.forEach(key => {
-            if (this.slackUsers[key].name !== randomUser.name) {
-                delete this.slackUsers[key];
+        const number = this.getRandomNumber(0, _.map(this.slackUsers).length - 1);
+        const randomUser = usersAsArray[number];
+
+        usersAsArray.forEach(user => {
+            if (this.slackUsers[user.id].name !== randomUser.name) {
+                delete this.slackUsers[user.id];
             }
         });
-        return this.userByName(randomUser.name);
+        return this.userByName(randomUser);
     }
 
     /**
@@ -279,7 +279,8 @@ module.exports = class SiaraBot extends SlackBot {
      */
     getCommandItem(command, commands = this.commands) {
         const searchedCommand = _.find(commands, { name: command });
-        return { ...searchedCommand };
+        return Object.assign({}, searchedCommand);
+        // return { ...searchedCommand };
     }
 
     /**

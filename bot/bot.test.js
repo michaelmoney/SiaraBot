@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable object-shorthand */
+const ROUTES = require(`../constants/firebase-routes`);
+
 const db = require('../db.json');
 const Bot = require('./bot');
 
@@ -165,12 +167,22 @@ describe(`when formatMessage method is called`, () => {
 
 describe(`When getRandomUser() method is called`, () => {
     beforeEach(() => {
-        bot.slackUsers = [`mike`, `johny`, `ernest`];
+        bot.slackUsers = {
+            '48fc1cf0-8d21-11e9-aeed-6124e608f892': {
+                id: '48fc1cf0-8d21-11e9-aeed-6124e608f892',
+                name: 'Mike',
+            },
+            'a99a0510-8dd3-11e9-a304-03711b8b064d': {
+                id: 'a99a0510-8dd3-11e9-a304-03711b8b064d',
+                name: 'John',
+            },
+        };
     });
-    test(`it should return a user name from the list`, () => {
-        const expectedUsers = bot.slackUsers.map(user => bot.userByName(user));
-        const randomUser = bot.getRandomUser();
-        expect(expectedUsers.includes(randomUser)).toBeTruthy();
+    test(`it should return a user name from the list`, async () => {
+        const getUser = jest.spyOn(bot, 'getUser').mockImplementation(() => (bot.slackUsers['48fc1cf0-8d21-11e9-aeed-6124e608f892']));
+        const randomUser = await bot.getRandomUser();
+        expect(getUser).toHaveBeenCalledWith('Mike');
+        expect(randomUser.includes('@')).toBeTruthy();
     });
 });
 
