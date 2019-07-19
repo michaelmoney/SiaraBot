@@ -35,7 +35,6 @@ const runApp = async () => {
             token: process.env.BOT_TOKEN,
             name: `"Siara" Siarzewski`,
         });
-
         const firebaseConfig = {
             apiKey: process.env.FIREBASE_API_KEY,
             authDomain: process.env.FIREBASE_AUTHDOMAIN,

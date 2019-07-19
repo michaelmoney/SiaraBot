@@ -1,7 +1,6 @@
 const SlackBot = require(`../node_modules/slackbots`);
 const _ = require(`lodash`);
 const moment = require(`moment`);
-const toArray = require(`../utils/to-array`);
 const asyncForEach = require(`../utils/async-for-each`);
 const ROUTES = require(`../constants/firebase-routes`);
 const MESSAGE = `message`;
@@ -111,7 +110,7 @@ module.exports = class SiaraBot extends SlackBot {
     async loadHolidays() {
         const holidaysRef = await this.database.ref(ROUTES.HOLIDAYS);
         holidaysRef.on(`value`, holidays => {
-            this.holidays = holidays.val();
+            this.holidays = _.map(holidays.val());
         });
     }
 
@@ -123,8 +122,8 @@ module.exports = class SiaraBot extends SlackBot {
         const commandsRef = await this.database.ref(`${ROUTES.COMMANDS}`);
         commandsRef.on(`value`, commands => {
             // eslint-disable-next-line no-console
-            console.log(`Commands downloaded! Total count: ${toArray(commands.val()).length}`);
-            this._commands = this.commands = commands.val();
+            console.log(`Commands downloaded! Total count: ${_.map(commands.val()).length}`);
+            this._commands = this.commands = _.map(commands.val());
         });
     }
 
@@ -160,7 +159,7 @@ module.exports = class SiaraBot extends SlackBot {
     async loadLocale() {
         const localeRef = await this.database.ref(`${ROUTES.LOCALE}`);
         localeRef.on(`value`, locale => {
-            this.locale = locale.val();
+            this.locale = _.map(locale.val());
         });
     }
 
@@ -178,7 +177,7 @@ module.exports = class SiaraBot extends SlackBot {
     async loadSchedule() {
         const scheduleRef = await this.database.ref(`${ROUTES.SCHEDULES}`);
         scheduleRef.on(`value`, schedules => {
-            this.schedules = schedules.val();
+            this.schedules = _.map(schedules.val());
         });
     }
 
@@ -189,7 +188,7 @@ module.exports = class SiaraBot extends SlackBot {
     async loadUsers() {
         const usersRef = await this.database.ref(`${ROUTES.USERS}`);
         usersRef.on(`value`, async users => {
-            this._users = this.slackUsers = users.val();
+            this._users = this.slackUsers = _.map(users.val());
         });
     }
 
@@ -208,16 +207,12 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {string} Slack's user name
      */
     async getRandomUser() {
-        const usersAsArray = _.map(this.slackUsers);
-        this.slackUsers = usersAsArray.length ? this.slackUsers : this._users;
+        this.slackUsers = this.slackUsers.length ? this.slackUsers : this._users;
         const number = this.getRandomNumber(0, _.map(this.slackUsers).length - 1);
-        const randomUser = usersAsArray[number];
+        const randomUser = this.slackUsers[number];
 
-        usersAsArray.forEach(user => {
-            if (this.slackUsers[user.id].name !== randomUser.name) {
-                delete this.slackUsers[user.id];
-            }
-        });
+        this.slackUsers = this.slackUsers.filter(user => user.name !== randomUser.name);
+
         return this.userByName(randomUser);
     }
 
@@ -230,8 +225,7 @@ module.exports = class SiaraBot extends SlackBot {
         if (this.isWeekend() || this.isHoliday()) {
             return;
         }
-        await asyncForEach(toArray(this.schedules), async key => {
-            const schedule = this.schedules[key];
+        await asyncForEach((this.schedules), async schedule => {
             if (schedule.time === time) {
                 if (schedule.command === STANDUP_COMMAND) {
                     this.postMessageToChannel(schedule.channel, this.getMessage(schedule.command, await this.getRandomUser()), schedule.command);
@@ -288,7 +282,7 @@ module.exports = class SiaraBot extends SlackBot {
      * @returns {string}
      */
     getCommandList() {
-        return `*Dostępne komendy:* ${toArray(this._commands).map(key => this._commands[key].name).toString()}`;
+        return `*Dostępne komendy:* ${(this._commands.map(command => command.name)).toString()}`;
     }
 
     /**
@@ -430,9 +424,9 @@ module.exports = class SiaraBot extends SlackBot {
     resetTexts(command) {
         const searchedCommand = this.getCommandItem(command);
         const originalCommand = this.getCommandItem(command, this._commands);
-        toArray(this.commands).forEach(key => {
-            if (this.commands[key].name === searchedCommand.name) {
-                this.commands[key] = originalCommand;
+        this.commands.forEach((cmd, index) => {
+            if (cmd.name === searchedCommand.name) {
+                this.commands[index] = originalCommand;
             }
         });
         this.currentCommandItem = this.getCommandItem(command);
@@ -447,11 +441,11 @@ module.exports = class SiaraBot extends SlackBot {
      */
     updateTexts(text) {
         this.currentCommandItem.texts = _.filter(this.currentCommandItem.texts, item => item !== text);
-        this.commands = toArray(this._commands).map(key => {
-            if (this._commands[key].name === this.currentCommandItem.name) {
+        this.commands = this._commands.map(command => {
+            if (command.name === this.currentCommandItem.name) {
                 return this.currentCommandItem;
             }
-            return this._commands[key];
+            return command;
         });
     }
 

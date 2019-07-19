@@ -167,19 +167,18 @@ describe(`when formatMessage method is called`, () => {
 
 describe(`When getRandomUser() method is called`, () => {
     beforeEach(() => {
-        bot.slackUsers = {
-            '48fc1cf0-8d21-11e9-aeed-6124e608f892': {
+        bot.slackUsers = [
+            {
                 id: '48fc1cf0-8d21-11e9-aeed-6124e608f892',
                 name: 'Mike',
-            },
-            'a99a0510-8dd3-11e9-a304-03711b8b064d': {
+            }, {
                 id: 'a99a0510-8dd3-11e9-a304-03711b8b064d',
                 name: 'John',
             },
-        };
+        ];
     });
     test(`it should return a user name from the list`, async () => {
-        const getUser = jest.spyOn(bot, 'getUser').mockImplementation(() => (bot.slackUsers['48fc1cf0-8d21-11e9-aeed-6124e608f892']));
+        const getUser = jest.spyOn(bot, 'getUser').mockImplementation(() => (bot.slackUsers[0]));
         const randomUser = await bot.getRandomUser();
         expect(getUser).toHaveBeenCalledWith('Mike');
         expect(randomUser.includes('@')).toBeTruthy();
